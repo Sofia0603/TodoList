@@ -4,6 +4,21 @@ import TodoInfo from "./TodoInfo.jsx";
 import TodoList from "./TodoList.jsx";
 
 const Todo = () => {
+
+  const tasks = [
+    {id: 'task-1', title: 'Купить молоко', isDone: false },
+    {id: 'task-2', title: 'Погладить кота', isDone: true },
+  ]
+
+  const deleteAllTasks = () => {
+    console.log('Удаляем все задачи')
+  }
+
+  const deleteTask = (taskId) => {
+      console.log(`Удаляем задачу с id: ${taskId}`);
+  }
+
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
@@ -12,9 +27,12 @@ const Todo = () => {
 
       <SearchTaskForm />
 
-      <TodoInfo />
+      <TodoInfo total={tasks.length} done={tasks.filter(({isDone}) => isDone).length}
+      onDeleteAllButtonClick={deleteAllTasks}
+      />
 
-      <TodoList/>
+      <TodoList tasks={tasks} onDeleteTaskButtonCLick={deleteTask}/>
+
     </div>
   )
 }
