@@ -18,20 +18,35 @@ const Todo = () => {
       console.log(`Удаляем задачу с id: ${taskId}`);
   }
 
+  const toggleTaskComplete = (taskId, isDone) => {
+    console.log(`Задача ${taskId} ${isDone ? 'Выполнена' : ' Не выполнена'}`);
+  }
+
+  const filterTasks = (query) => {
+    console.log(`Поиск: ${query}`);
+  }
+
+
+  const addTask = (query) => {
+    console.log('Задача добавлена')
+  }
 
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
 
-      <AddTaskForm />
+      <AddTaskForm addTask={addTask} />
 
-      <SearchTaskForm />
+      <SearchTaskForm onSearchInput={filterTasks} />
 
       <TodoInfo total={tasks.length} done={tasks.filter(({isDone}) => isDone).length}
       onDeleteAllButtonClick={deleteAllTasks}
       />
 
-      <TodoList tasks={tasks} onDeleteTaskButtonCLick={deleteTask}/>
+      <TodoList tasks={tasks}
+      onDeleteTaskButtonCLick={deleteTask}
+      onTaskCompleteChange={toggleTaskComplete}
+      />
 
     </div>
   )
