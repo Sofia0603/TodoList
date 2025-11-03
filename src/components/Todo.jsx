@@ -37,7 +37,7 @@ const Todo = () => {
       })
     )
   }
-п
+
   const filterTasks = (query) => {
     console.log(`Поиск: ${query}`);
   }
