@@ -6,6 +6,7 @@ import SearchTaskForm from "./SearchTaskForm.jsx";
 import TodoInfo from "./TodoInfo.jsx";
 import TodoList from "./TodoList.jsx";
 import Button from "./Button.jsx";
+import {TasksContext} from "../context/TasksContext.js";
 
 const Todo = () => {
 
@@ -99,46 +100,45 @@ const Todo = () => {
       : null
   },[tasks, searchQuery])
 
-  const doneTasks = useMemo(()=> {
-    return tasks.filter(({isDone}) => isDone).length
-  },[tasks])
-
 
   return (
-    <div className="todo">
-      <h1 className="todo__title">To Do List</h1>
+    <TasksContext.Provider
+    value={{
+      tasks,
+      filteredTasks,
+      firstIncompleteTaskRef,
+      firstIncompleteTaskId,
+      deleteAllTasks,
+      deleteTask,
+      toggleTaskComplete,
+    }}
+    >
+      <div className="todo">
+        <h1 className="todo__title">To Do List</h1>
 
-      <AddTaskForm
-                newTaskTitle={newTaskTitle}
-                setNewTaskTitle={setNewTaskTitle}
-                newTaskInputRef={newTaskInputRef}
-                addTask={addTask}
-      />
+        <AddTaskForm
+                  newTaskTitle={newTaskTitle}
+                  setNewTaskTitle={setNewTaskTitle}
+                  newTaskInputRef={newTaskInputRef}
+                  addTask={addTask}
+        />
 
-      <SearchTaskForm
-                searchQuery={searchQuery}
-                setSearchQuery ={setSearchQuery}
-      />
+        <SearchTaskForm
+                  searchQuery={searchQuery}
+                  setSearchQuery ={setSearchQuery}
+        />
 
-      <TodoInfo total={tasks.length}
-                done={ doneTasks }
-                onDeleteAllButtonClick={deleteAllTasks}
-      />
+        <TodoInfo/>
 
-      <Button onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({behavior: "smooth"})}
-      >
-        Show first incomplete task
-      </Button>
+        <Button onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({behavior: "smooth"})}
+        >
+          Show first incomplete task
+        </Button>
 
-      <TodoList tasks={tasks}
-                filteredTasks={filteredTasks}
-                firstIncompleteTaskRef={firstIncompleteTaskRef}
-                firstIncompleteTaskId={firstIncompleteTaskId}
-                onDeleteTaskButtonCLick={deleteTask}
-                onTaskCompleteChange={toggleTaskComplete}
-      />
+        <TodoList/>
 
-    </div>
+      </div>
+    </TasksContext.Provider>
   )
 }
 
